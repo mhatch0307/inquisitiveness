@@ -21,12 +21,13 @@ class MergeSort
 public:
    MergeSort(list <int> input);
    void sort();
+   void recursiveSort();
    friend ostream & operator << (ostream &out, MergeSort & merge);
 private:
    void merge();
    void split();
    int size;
-   int numSub;
+   bool sorted;
    list <int> mergedList;
    list <int> sub1;
    list <int> sub2;
@@ -39,7 +40,7 @@ MergeSort::MergeSort(list <int> input)
 {
    size = input.size();
    mergedList = input;
-   numSub = 1;
+   sorted = false;
 }
 
 /********************************************************************
@@ -73,8 +74,7 @@ void MergeSort::merge()
          it1++;
       }
    }
-   
-   else if (it2 != sub2.end())
+   else 
    {
       while (it2 != sub2.end())
       {
@@ -89,7 +89,7 @@ void MergeSort::merge()
 void MergeSort::split()
 {
    bool first = true;
-   numSub = 0;
+   sorted = true;
    int prev;
    sub1 = list <int> ();
    sub2 = list <int> ();
@@ -105,7 +105,7 @@ void MergeSort::split()
       it++;
       if ( it != mergedList.end() && prev > *it)
       {
-         numSub++;
+         sorted = false;
          first = !first;
       }
    }
@@ -116,14 +116,24 @@ void MergeSort::split()
 *********************************************************************/
 void MergeSort::sort()
 {
-   while (numSub > 0)
+   while (!sorted)
    {
       split();
       merge();
    }
 }
 
-/*******************************************************************
+void MergeSort::recursiveSort()
+{
+   if(!sorted)
+   {
+      split();
+      merge();
+      recursiveSort();
+   }
+}
+
+/*********************************g**********************************
 * << operator overload for MergeSort
 ********************************************************************/
 ostream & operator << (ostream &out, MergeSort & merge)
@@ -159,8 +169,17 @@ int main(int argc, char* argv[])
    {
       newList.push_back(num);
    }
-   MergeSort merge = MergeSort(newList);
+
+   list <int> list1 = newList;
+   list <int> list2 = newList;
+
+   MergeSort merge = MergeSort(list1);
    merge.sort();
    cout << merge << endl;
+
+   merge = MergeSort(list2);
+   merge.recursiveSort();
+   cout << merge << endl;
+
 }
 

@@ -21,14 +21,15 @@ class Heap
 {
 private:
    vector <int> heap;
-   int mySize;
 public:
    Heap();
    void convertToHeap();
+   int mySize;
    int retrieveMaxItem() { return heap[1]; } // return teh max item in heap
    void deleteMaxItem();
    void percolateDown(int r, int n);
    void sort();
+   void recursiveSort(int index);
    friend istream & operator >> (istream &in, Heap &h);
    friend ostream & operator << (ostream &out, const Heap &h);
 };
@@ -82,6 +83,18 @@ void Heap::sort()
       heap[1] = heap[i];
       heap[i] = temp;
       percolateDown(1, i-1);
+   }
+}
+
+void Heap::recursiveSort(int index)
+{
+   if(index >= 2)
+   {
+      int temp = heap[1];
+      heap[1] = heap[index];
+      heap[index] = temp;
+      percolateDown(1, --index);
+      recursiveSort(index);
    }
 }
 
@@ -155,5 +168,9 @@ int main(int argc, char* argv[])
    Heap heap;
    inFile >> heap;
    heap.sort();
+   cout << heap;
+   cout << endl;
+   inFile >> heap;
+   heap.recursiveSort(heap.mySize);
    cout << heap;
 }

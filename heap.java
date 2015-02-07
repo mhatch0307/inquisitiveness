@@ -1,16 +1,16 @@
+import java.util.List;
 import java.util.ArrayList;
 
 class Heap
 {
-	private ArrayList <Integer> heap;
+	private List <Integer> heap;
 	private int heapSize;
 
-	public Heap(ArrayList <Integer> numbers)
+	public Heap(List <Integer> numbers)
 	{
 		heap = numbers;
-		heapSize = numbers.size();
-		heap.add(0, 0);
-		display();
+		heapSize = numbers.size() - 1;
+		convertToHeap();
 	}
 
 	private void display()
@@ -23,18 +23,18 @@ class Heap
 	private void sort()
 	{
 		int temp;
-		for(int i = heapSize; i >= 2; i--)
+		for(int i = heapSize; i >= 1; i--)
 		{
-			temp = heap.get(1);
-			heap.set(1, heap.get(i));
+			temp = heap.get(0);
+			heap.set(0, heap.get(i));
 			heap.set(i, temp);
-			percolateDown(1, i-1);
+			percolateDown(0, i-1);
 		}
 	}
 
 	private void convertToHeap()
 	{
-		for(int r = (int) (heapSize / 2); r >= 1; r--)
+		for(int r = heapSize / 2; r >= 0; r--)
 		{
 			percolateDown(r, heapSize);
 		}
@@ -62,13 +62,13 @@ class Heap
 
 	private void deletMaxItem()
 	{
-		heap.set(1, heap.get(heapSize));
+		heap.set(0, heap.get(heapSize));
 		heapSize--;
 	}
 
 	public static void main(String[] args)
 	{
-		ArrayList <Integer> numbers = new ArrayList <Integer>();
+		List <Integer> numbers = new ArrayList <Integer>();
 		numbers.add(10);
 		numbers.add(7);
 		numbers.add(14);
