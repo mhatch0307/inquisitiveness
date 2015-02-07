@@ -1,14 +1,16 @@
-- How does the language affect performance?
-- How does the data type to be sorted affect peformances?
-- How does overhead from recursion affect performance?
-- How does the operating system affect the performance of the algorithms?
-- How does a 32 bit and 64 bit architecture affect performance?
-- How does theortical running time and the emperical running time compare?
-- How does optimization of a compiler affect performance? 
-- Are there situations where a slow algorithm is acceptable to use in an application? 
-- Are there situations where a fast algorithms might be the only option?
-- What affect do background processes have on the effeciency of the algorithms?
-- How does quad core AMD and Intel processors affect effeciency?
+- How does the language affect performance? - Mike
+- How does the data type to be sorted affect peformances? - Matthew 
+- How does overhead from recursion affect performance? - Mike
+- How does the operating system affect the performance of the algorithms? - Matthew
+- How does a 32 bit and 64 bit architecture affect performance? - Matthew 
+- How does theortical running time and the emperical running time compare? - Mike
+- How does optimization of a compiler affect performance? - Mike  
+- Are there situations where a slow algorithm is acceptable to use in an application? - Together
+- Are there situations where a fast algorithms might be the only option? - Together
+
+- What affect do background processes have on the effeciency of the algorithms? - Matthew 
+
+- How does order affect performance? (Random, Descending) - Mike
 
 - HeapSort - Matthew
 - MergeSort - Mike
