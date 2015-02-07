@@ -1,17 +1,21 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include <fstream>
+#include <string>
 using namespace std;
 
-int ARRAY_SIZE = 20;
+int ARRAY_SIZE = 10000;
 
-void getRandomNumbers(int* numberList)
+void getFromFile(int* numberList)
 {
-   srand(time(0));
-   for (int i = 0; i < ARRAY_SIZE; i++)
+   ifstream file;
+   string num;
+   file.open("numberLists/10,000.txt");
+   for (int i = 0; file >> num; i++)
    {
-      numberList[i] = rand() % 1001;
-   }      
+      numberList[i] = atoi(num.c_str());
+   }
 }
 
 void output(int* numberList)
@@ -46,7 +50,7 @@ void bubbleSort(int* numberList)
 int main()
 {
    int numberList[ARRAY_SIZE]; 
-   getRandomNumbers(numberList);
+   getFromFile(numberList);
    bubbleSort(numberList);
    output(numberList);
    return 0;

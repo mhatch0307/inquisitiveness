@@ -1,15 +1,21 @@
 import java.io.*;
 import java.util.Random;
-
+import java.util.Scanner;
 public class BubbleSort
 {   
-   public static void getRandomNumbers(int[] numberList)
+   public static void getFromFile(int[] numberList)
    {
-      Random rand = new Random();
-      for (int i = 0; i < numberList.length; i++)
+      try{
+         Scanner fileScanner = new Scanner(new File("numberLists/10,000.txt"));
+         for (int i = 0; fileScanner.hasNextInt(); i++)
+         {
+            numberList[i] = fileScanner.nextInt();
+         }
+      }
+      catch (IOException e)
       {
-         numberList[i] = rand.nextInt(1000);
-      }      
+         System.out.println("Wrong file name");
+      }
    }
    
    public static void output(int[] numberList)
@@ -43,8 +49,8 @@ public class BubbleSort
    
    public static void main(String[] args)
    {
-      int[] numberList = new int[20]; 
-      getRandomNumbers(numberList);
+      int[] numberList = new int[10000]; 
+      getFromFile(numberList);
       bubbleSort(numberList);
       output(numberList);
    }
