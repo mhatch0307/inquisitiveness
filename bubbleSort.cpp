@@ -5,16 +5,16 @@
 #include <string>
 using namespace std;
 
-int ARRAY_SIZE = 10000;
+int ARRAY_SIZE = 50000;
 
 void getFromFile(int* numberList)
 {
    ifstream file;
-   string num;
-   file.open("numberLists/10,000.txt");
+   int num;
+   file.open("numberLists/50,000.txt");
    for (int i = 0; file >> num; i++)
    {
-      numberList[i] = atoi(num.c_str());
+      numberList[i] = num;//atoi(num.c_str());
    }
 }
 

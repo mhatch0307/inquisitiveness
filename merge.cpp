@@ -8,7 +8,6 @@
 *    Implementation of merge sort
 *********************************************************************/
 #include <iostream>
-#include <list>
 #include <fstream>
 
 using namespace std;
@@ -19,27 +18,33 @@ using namespace std;
 class MergeSort
 {
 public:
-   MergeSort(list <int> input);
+   MergeSort(int* input, int size, int* sub1, int* sub2);
    void sort();
    void recursiveSort();
+   void display();
    friend ostream & operator << (ostream &out, MergeSort & merge);
 private:
    void merge();
    void split();
    int size;
+   int sub1Size;
+   int sub2Size;
    bool sorted;
-   list <int> mergedList;
-   list <int> sub1;
-   list <int> sub2;
+   int* merged;
+   int* sub1;
+   int* sub2;
 };
-
 /********************************************************************
 * MergeSort default constructor
 *********************************************************************/
-MergeSort::MergeSort(list <int> input)
+MergeSort::MergeSort(int* input, int pSize, int* pSub1, int* pSub2)
 {
-   size = input.size();
-   mergedList = input;
+   size = pSize;
+   sub1Size = 0;
+   sub2Size = 0;
+   sub1 = pSub1;
+   sub2 = pSub2;
+   merged = input;
    sorted = false;
 }
 
@@ -47,63 +52,68 @@ MergeSort::MergeSort(list <int> input)
 * merge() merge the l1 and l2 together
 *********************************************************************/
 void MergeSort::merge()
-{
-   list <int>::iterator  it1 = sub1.begin();
-   list <int>::iterator  it2 = sub2.begin();
-   mergedList = list <int> ();
-   
-   while (it1 != sub1.end() && it2 != sub2.end())
+{ 
+   int sub1I = 0;
+   int sub2I = 0;
+   int mergedI = 0;
+   while (sub1I < sub1Size && sub2I < sub2Size)
    {
-      if (*it1 < *it2)
+      if(sub1[sub1I] < sub2[sub2I])
       {
-         mergedList.push_back(*it1);
-         it1++;
+         merged[mergedI] = sub1[sub1I];
+         sub1I++;
       }
       else
       {
-         mergedList.push_back(*it2);
-         it2++;
+         merged[mergedI] = sub2[sub2I];
+         sub2I++;
       }
+      mergedI++;
    }
 
-   if (it1 != sub1.end())
-   {
-      while(it1 != sub1.end())
-      {
-         mergedList.push_back(*it1);
-         it1++;
-      }
+   while(sub1I < sub1Size)
+   { 
+      merged[mergedI] = sub1[sub1I];
+      sub1I++;
+      mergedI++;
    }
-   else 
+   while (sub2I < sub2Size)
    {
-      while (it2 != sub2.end())
-      {
-         mergedList.push_back(*it2);
-         it2++;
-      }
+      merged[mergedI] = sub2[sub2I];
+      sub2I++;
+      mergedI++;
    }
 }
 /********************************************************************
-* split() split the mergedList into l1 and l2 based
+* split() split the merged into l1 and l2 based
 *********************************************************************/
 void MergeSort::split()
 {
    bool first = true;
    sorted = true;
    int prev;
-   sub1 = list <int> ();
-   sub2 = list <int> ();
-   list <int>::iterator  it = mergedList.begin();
-   while(it != mergedList.end())
+   sub1Size = 0;
+   sub2Size = 0;
+   int mergedI = 0;
+   int sub1I = 0;
+   int sub2I = 0;
+   while(mergedI < size)
    {
       if (first)
-         sub1.push_back(*it);
+      {
+         sub1[sub1I] = merged[mergedI];
+         sub1I++;
+         sub1Size++;
+      }
       else
-         sub2.push_back(*it);
-      
-      prev = *it;
-      it++;
-      if ( it != mergedList.end() && prev > *it)
+      {
+         sub2[sub2I] = merged[mergedI];
+         sub2I++;
+         sub2Size++;		
+      }
+      prev = merged[mergedI];
+      mergedI++;
+      if (mergedI < size && prev > merged[mergedI])
       {
          sorted = false;
          first = !first;
@@ -112,38 +122,43 @@ void MergeSort::split()
 }
 
 /********************************************************************
-* sort() merge sort the list
+* sort() merge sort the vector
 *********************************************************************/
 void MergeSort::sort()
 {
-   while (!sorted)
+   while(!sorted)
    {
       split();
       merge();
    }
 }
 
-void MergeSort::recursiveSort()
+void MergeSort::recursiveSort(int low, int high)
 {
-   if(!sorted)
-   {
-      split();
-      merge();
-      recursiveSort();
-   }
+    int mid;
+    if(low < high)
+    {
+
+    }
 }
+
+void MergeSort::display()
+{
+   for(int i = 0; i < size; i++)
+   {
+      cout << merged[i] << " ";
+   }
+}	
 
 /*********************************g**********************************
 * << operator overload for MergeSort
 ********************************************************************/
 ostream & operator << (ostream &out, MergeSort & merge)
 {
-   for (list <int>::iterator it = merge.mergedList.begin(); 
-       it != merge.mergedList.end(); ++it)
+   for(int i = 0; i < merge.size; i++)
    {
-      out << *it << " ";
+	out << merge.merged[i] << " ";
    }
-   
    return out;
 }
 /********************************************************************
@@ -163,23 +178,21 @@ int main(int argc, char* argv[])
    }
    ifstream input;
    input.open(name);
+   int size = 50000;
+   int numbers[size];
+   int sub1[size];
+   int sub2[size];
+   int i = 0;
    int num;
-   list <int> newList;
    while (input >> num)
    {
-      newList.push_back(num);
-   }
-
-   list <int> list1 = newList;
-   list <int> list2 = newList;
-
-   MergeSort merge = MergeSort(list1);
+      numbers[i] = num;
+      i++;
+   }	 
+   MergeSort merge = MergeSort(numbers, size, sub1, sub2);
+   //merge.display();
    merge.sort();
-   cout << merge << endl;
-
-   merge = MergeSort(list2);
-   merge.recursiveSort();
-   cout << merge << endl;
+   merge.display();
 
 }
 

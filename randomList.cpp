@@ -14,7 +14,7 @@ void output(int* numberList, int arraySize)
 int main()
 {
    srand(time(0));
-   int arraySize = 500000;
+   int arraySize = 1000000;
    int numberMax = 200000000;
    int numberList[arraySize];
    for (int i = 0; i < arraySize; i++)

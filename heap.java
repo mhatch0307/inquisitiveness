@@ -19,7 +19,7 @@ class Heap
 			System.out.print(heap.get(i) + " ");
 		System.out.println();
 	}
-
+	
 	private void sort()
 	{
 		int temp;
