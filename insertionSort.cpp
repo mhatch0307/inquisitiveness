@@ -5,8 +5,6 @@
 
 using namespace std;
 
-int ARRAY_SIZE = 500000;
-
 void getFromFile(int* numberList, char* name)
 {
    ifstream file;

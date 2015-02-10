@@ -3,16 +3,15 @@
 #include <time.h>
 using namespace std;
 
-int ARRAY_SIZE = 500000;
 
-void getFromFile(float* numberList)
+void getFromFile(float* numberList, int size)
 {
    ifstream file;
    float num;
-   file.open("numberLists/500000FloatNums.txt");
+   file.open(name);
    for (int i = 0; file >> num; i++)
    {
-      numberList[i] = num;//atoi(num.c_str());
+      numberList[i] = num;
    }
 }
 
@@ -51,16 +50,30 @@ void recursiveInsertionSort(float *numbers, int last, int size)
 	}
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-	float numbers[ARRAY_SIZE];
+   char* name = new char[80];
+   int size;
+   if (argc > 2)
+   {
+      name = argv[1];
+      size = atoi(argv[2]);
+   }
+   else
+   {
+      cout << "Filename: ";
+      cin >> name;
+      cout << "Size: ";
+      cin >> size;
+   }
+	float numbers[size];
 	getFromFile(numbers);
          clock_t t;
   	 t = clock();
-	insertionSort(numbers, ARRAY_SIZE);
+	insertionSort(numbers, size);
         t = clock() - t;
 	cout << endl;	
-	display(numbers, ARRAY_SIZE);
+	display(numbers, size);
          cout << endl << (float)t / CLOCKS_PER_SEC << endl;
 	//recursiveInsertionSort(numbers2, size, size);
 }

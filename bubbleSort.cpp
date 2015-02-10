@@ -5,8 +5,6 @@
 #include <string>
 using namespace std;
 
-int ARRAY_SIZE = 10000;
-
 void getFromFile(int* numberList, char* name)
 {
    ifstream file;
@@ -18,23 +16,23 @@ void getFromFile(int* numberList, char* name)
    }
 }
 
-void output(int* numberList)
+void output(int* numberList, int size)
 {
-   for (int i = 0; i < ARRAY_SIZE; i++)
+   for (int i = 0; i < size; i++)
    {
       cout << numberList[i] << " ";
    }
    cout << endl;
 }
 
-void bubbleSort(int* numberList)
+void bubbleSort(int* numberList, int size)
 {
    int temp;
    bool sorted = false;
    while (!sorted)
    {
       sorted = true;
-      for (int i = 0; i < ARRAY_SIZE - 1; i++)
+      for (int i = 0; i < size - 1; i++)
       {
          if (numberList[i] > numberList[i+1])
          {
@@ -67,9 +65,9 @@ int main(int argc, char* argv[])
    getFromFile(numberList, name); 
    clock_t t;
    t = clock();
-   bubbleSort(numberList);
+   bubbleSort(numberList, size);
     t = clock() - t;
-   output(numberList);
+   output(numberList, size);
    cout << endl << (float)t / CLOCKS_PER_SEC << endl;
    return 0;
 }

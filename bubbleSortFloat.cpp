@@ -7,34 +7,34 @@ using namespace std;
 
 int ARRAY_SIZE = 100000;
 
-void getFromFile(double* numberList)
+void getFromFile(double* numberList, char* name)
 {
    ifstream file;
    string num;
-   file.open("numberLists/100000FloatNums.txt");
+   file.open(name);
    for (int i = 0; file >> num; i++)
    {
       numberList[i] = atof(num.c_str());
    }
 }
 
-void output(double* numberList)
+void output(double* numberList, int size)
 {
-   for (int i = 0; i < ARRAY_SIZE; i++)
+   for (int i = 0; i < size; i++)
    {
       cout << numberList[i] << " ";
    }
    cout << endl;
-}
+} 
 
-void bubbleSort(double* numberList)
+void bubbleSort(double* numberList, size)
 {
    int temp;
    bool sorted = false;
    while (!sorted)
    {
       sorted = true;
-      for (int i = 0; i < ARRAY_SIZE - 1; i++)
+      for (int i = 0; i < size - 1; i++)
       {
          if (numberList[i] > numberList[i+1])
          {
@@ -49,13 +49,27 @@ void bubbleSort(double* numberList)
 
 int main()
 {
-   double numberList[ARRAY_SIZE]; 
-   getFromFile(numberList);
+   char* name = new char[80];
+   int size;
+   if (argc > 2)
+   {
+      name = argv[1];
+      size = atoi(argv[2]);
+   }
+   else
+   {
+      cout << "Filename: ";
+      cin >> name;
+      cout << "Size: ";
+      cin >> size;
+   } 
+   double numberList[size]; 
+   getFromFile(numberList, name);
    clock_t t;
    t = clock();
-   bubbleSort(numberList);
+   bubbleSort(numberList, size);
     t = clock() - t;
-   output(numberList);
+   output(numberList, size);
       cout << endl << (float)t / CLOCKS_PER_SEC << endl;
    return 0;
 }
