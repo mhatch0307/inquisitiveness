@@ -1,3 +1,6 @@
+Code Used From http://www.algolist.net/Algorithms/Merge/Sorted_arrays.
+
+
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
