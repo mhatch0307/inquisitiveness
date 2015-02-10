@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-
+#include <time.h>
 using namespace std;
 
 int ARRAY_SIZE = 500000;
@@ -55,9 +55,12 @@ int main()
 {
 	float numbers[ARRAY_SIZE];
 	getFromFile(numbers);
+         clock_t t;
+  	 t = clock();
 	insertionSort(numbers, ARRAY_SIZE);
+        t = clock() - t;
 	cout << endl;	
 	display(numbers, ARRAY_SIZE);
-
+         cout << endl << (float)t / CLOCKS_PER_SEC << endl;
 	//recursiveInsertionSort(numbers2, size, size);
 }

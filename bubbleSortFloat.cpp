@@ -51,7 +51,11 @@ int main()
 {
    double numberList[ARRAY_SIZE]; 
    getFromFile(numberList);
+   clock_t t;
+   t = clock();
    bubbleSort(numberList);
+    t = clock() - t;
    output(numberList);
+      cout << endl << (float)t / CLOCKS_PER_SEC << endl;
    return 0;
 }

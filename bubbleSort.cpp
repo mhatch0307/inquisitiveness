@@ -5,13 +5,13 @@
 #include <string>
 using namespace std;
 
-int ARRAY_SIZE = 50000;
+int ARRAY_SIZE = 10000;
 
-void getFromFile(int* numberList)
+void getFromFile(int* numberList, char* name)
 {
    ifstream file;
    int num;
-   file.open("numberLists/50,000.txt");
+   file.open(name);
    for (int i = 0; file >> num; i++)
    {
       numberList[i] = num;//atoi(num.c_str());
@@ -47,11 +47,29 @@ void bubbleSort(int* numberList)
    }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-   int numberList[ARRAY_SIZE]; 
-   getFromFile(numberList);
+  char* name = new char[80];
+   int size;
+   if (argc > 1)
+   {
+      name = argv[1];
+      size = atoi(argv[2]);
+   }
+   else
+   {
+      cout << "Filename: ";
+      cin >> name;
+      cout << "Size: ";
+      cin >> size;
+   }
+   int numberList[size]; 
+   getFromFile(numberList, name); 
+   clock_t t;
+   t = clock();
    bubbleSort(numberList);
+    t = clock() - t;
    output(numberList);
+   cout << endl << (float)t / CLOCKS_PER_SEC << endl;
    return 0;
 }

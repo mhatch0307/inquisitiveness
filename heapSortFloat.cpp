@@ -12,6 +12,8 @@
 #include <fstream>
 #include <cstdlib>
 #include <vector>
+#include <time.h>
+#include <math.h>
 using namespace std;
 
 /**********************************************************
@@ -20,9 +22,10 @@ using namespace std;
 class Heap
 {
 private:
-   vector <float> heap;
+  float* heap;
 public:
-   Heap();
+   Heap(int size);
+   ~Heap();
    void convertToHeap();
    int mySize;
    int retrieveMaxItem() { return heap[1]; } // return teh max item in heap
@@ -43,7 +46,7 @@ istream & operator >> (istream &in, Heap &h)
    float next;
    while(in >> next)
    {
-      h.heap.push_back(next);
+      h.heap[h.mySize] = next;
       h.mySize++;
    }
    h.convertToHeap();
@@ -56,7 +59,7 @@ istream & operator >> (istream &in, Heap &h)
  ***********************************************************/
 ostream & operator << (ostream & out, const Heap &h)
 {
-   for (int i = 1; i <= h.mySize; i++)
+   for (int i = 0; i < h.mySize; i++)
       out << h.heap[i] << " ";
    out << endl;
    return out;
@@ -65,10 +68,15 @@ ostream & operator << (ostream & out, const Heap &h)
 /**********************************************************
  * default constructor
  ***********************************************************/
-Heap::Heap()
+Heap::Heap(int pSize)
 {
    mySize = 0;
-   heap.push_back(0);
+   heap = new int[pSize];
+}
+
+Heap::~Heap()
+{
+   delete heap;
 }
 
 /**********************************************************
@@ -77,12 +85,12 @@ Heap::Heap()
 void Heap::sort()
 {
    int temp;
-   for (int i = mySize; i >= 2; i--)
+   for (int i = mySize; i >= 1; i--)
    {
-      temp = heap[1];
-      heap[1] = heap[i];
+      temp = heap[0];
+      heap[0] = heap[i];
       heap[i] = temp;
-      percolateDown(1, i-1);
+      percolateDown(0, i-1);
    }
 }
 
@@ -90,10 +98,10 @@ void Heap::recursiveSort(int index)
 {
    if(index >= 2)
    {
-      int temp = heap[1];
-      heap[1] = heap[index];
+      int temp = heap[0];
+      heap[0] = heap[index];
       heap[index] = temp;
-      percolateDown(1, --index);
+      percolateDown(0, --index);
       recursiveSort(index);
    }
 }
@@ -103,7 +111,7 @@ void Heap::recursiveSort(int index)
 ***********************************************************/
 void Heap::convertToHeap()
 {
-   for (int r = (mySize / 2); r >= 1; r--)
+   for (int r = (mySize / 2); r >= 0; r--)
    {
       percolateDown(r, mySize);
    }
@@ -137,14 +145,6 @@ void Heap::percolateDown(int r, int n)
       }
    }
 }
-/**********************************************************
- *        delete max item; delete the max item in heap
-***********************************************************/
-void Heap::deleteMaxItem()
-{
-   heap.at(1) = heap.at(mySize);
-   mySize--;
-}
 
 
 /**********************************************************
@@ -152,25 +152,32 @@ void Heap::deleteMaxItem()
 ***********************************************************/
 int main(int argc, char* argv[])
 {
+   int size;
    char* fileName = new char[80];
-   if (argc > 1)
+   if (argc > 2)
    {
       fileName = argv[1];
+      size = atoi(argv[2]);
    }
    else
    {
       cout << "File name: ";
       cin >> fileName;
+     cout << "Size :";
+     cin >> size;
    }
 
    ifstream inFile;
    inFile.open(fileName);
-   Heap heap;
+   Heap heap = Heap(size);
    inFile >> heap;
+   clock_t t;
+   t = clock();
    heap.sort();
+   t = clock() - t;
    cout << heap;
-   cout << endl;
-   inFile >> heap;
-   heap.recursiveSort(heap.mySize);
-   cout << heap;
+   cout << endl << (float)t / CLOCKS_PER_SEC << endl;
+   //inFile >> heap;
+  // heap.recursiveSort(heap.mySize);
+   //cout << heap;
 }

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <time.H>
 using namespace std;
  
  
@@ -90,12 +91,15 @@ int main(int argc, char* argv[])
 	   {
 	      numbers[i] = num;
 	      i++;
-	   }	 
-
-	merge_sort(numbers, 0, (arraySize-1) );   
+	   }	   
+        clock_t t;
+        t = clock();
+	merge_sort(numbers, 0, (arraySize-1) );  
+         t = clock() - t;
         for(int i = 0; i < arraySize; i++)
         {
 	   cout << numbers[i] << " ";
         }
+         cout << endl << (float)t / CLOCKS_PER_SEC << endl;
 	return 0;
 }

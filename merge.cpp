@@ -167,18 +167,21 @@ ostream & operator << (ostream &out, MergeSort & merge)
 int main(int argc, char* argv[])
 {
    char* name = new char[80];
+   int size;
    if (argc > 1)
    {
       name = argv[1];
+      size = atoi(argv[2]);
    }
    else
    {
       cout << "Filename: ";
       cin >> name;
+      cout << "Size: ";
+      cin >> size;
    }
    ifstream input;
    input.open(name);
-   int size = 50000;
    int numbers[size];
    int sub1[size];
    int sub2[size];
