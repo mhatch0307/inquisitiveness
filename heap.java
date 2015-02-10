@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -6,6 +8,21 @@ class Heap
 	private List <Integer> heap;
 	private int heapSize;
 
+   public static void getFromFile(List<Integer> numberList)
+   {
+      try{
+         Scanner fileScanner = new Scanner(new File("numberLists/10,000.txt"));
+         for (int i = 0; fileScanner.hasNextInt(); i++)
+         {
+            numberList.add(fileScanner.nextInt());
+         }
+      }
+      catch (IOException e)
+      {
+         System.out.println("Wrong file name");
+      }
+   }
+   
 	public Heap(List <Integer> numbers)
 	{
 		heap = numbers;
@@ -69,23 +86,13 @@ class Heap
 	public static void main(String[] args)
 	{
 		List <Integer> numbers = new ArrayList <Integer>();
-		numbers.add(10);
-		numbers.add(7);
-		numbers.add(14);
-		numbers.add(3);
-		numbers.add(2);
-		numbers.add(13);
-		numbers.add(8);
-		numbers.add(5);
-		numbers.add(12);
-		numbers.add(4);
-		numbers.add(9);
-		numbers.add(6);
-		numbers.add(11);
-		numbers.add(1);
+      getFromFile(numbers);
 		Heap heap = new Heap(numbers);
-		heap.display();
+      double startTime = System.currentTimeMillis();
 		heap.sort();
+      double stopTime = System.currentTimeMillis();
+      double elapsedTime = stopTime - startTime;
 		heap.display();
+      System.out.println(elapsedTime/1000.0);
 	}
 }

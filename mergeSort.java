@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 	
@@ -9,6 +11,21 @@ class MergeSort
 	private List <Integer> sub1;
 	private List <Integer> sub2;
 
+   public static void getFromFile(List<Integer> numberList)
+   {
+      try{
+         Scanner fileScanner = new Scanner(new File("numberLists/10,000.txt"));
+         for (int i = 0; fileScanner.hasNextInt(); i++)
+         {
+            numberList.add(fileScanner.nextInt());
+         }
+      }
+      catch (IOException e)
+      {
+         System.out.println("Wrong file name");
+      }
+   }
+   
 	public MergeSort(List <Integer> numbers)
 	{
 		//size = numbers.size();
@@ -104,23 +121,14 @@ class MergeSort
 	public static void main(String args[])
 	{
 		List <Integer> numbers = new ArrayList <Integer>();
-		numbers.add(10);
-		numbers.add(7);
-		numbers.add(14);
-		numbers.add(3);
-		numbers.add(2);
-		numbers.add(13);
-		numbers.add(8);
-		numbers.add(5);
-		numbers.add(12);
-		numbers.add(4);
-		numbers.add(9);
-		numbers.add(6);
-		numbers.add(11);
-		numbers.add(1);
+      getFromFile(numbers);
 		MergeSort mergeSort = new MergeSort(numbers);
+      double startTime = System.currentTimeMillis();
 		mergeSort.sort();
+      double stopTime = System.currentTimeMillis();
+      double elapsedTime = stopTime - startTime;
 		mergeSort.display();
+      System.out.println(elapsedTime/1000.0);
 	}
 
 }
